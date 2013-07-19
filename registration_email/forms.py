@@ -1,5 +1,5 @@
 """Custom registration forms that expects an email address as a username."""
-import hashlib, base64
+import hashlib
 import os
 
 from django import forms
