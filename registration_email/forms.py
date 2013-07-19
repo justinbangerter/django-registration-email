@@ -23,7 +23,7 @@ def get_md5_hexdigest(email):
     Base64 encoded to 24 characters to fit into the username field
 
     """
-    return base64.b64encode(hashlib.md5(self.email).digest())
+    return base64.b64encode(hashlib.md5(email).digest())
 
 
 def generate_username(email):
