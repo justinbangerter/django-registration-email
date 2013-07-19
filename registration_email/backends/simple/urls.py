@@ -20,7 +20,8 @@ from django.conf import settings
 from django.conf.urls import include, patterns, url
 from django.views.generic import TemplateView
 
-from registration.views import register
+from registration_email.forms import EmailRegistrationForm
+from registration_email.backends.simple.views import EmailRegistrationView
 
 from registration_email.forms import EmailRegistrationForm
 
@@ -28,7 +29,7 @@ from registration_email.forms import EmailRegistrationForm
 urlpatterns = patterns('',
     # django-registration views
     url(r'^register/$',
-        register,
+        EmailRegistrationView.as_view(),
         {'backend': 'registration.backends.simple.SimpleBackend',
          'template_name': 'registration/registration_form.html',
          'form_class': EmailRegistrationForm,
