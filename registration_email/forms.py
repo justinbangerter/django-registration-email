@@ -19,19 +19,18 @@ attrs_dict = {'class': 'required'}
 def get_md5_hexdigest(email):
     """
     Returns an md5 hash for a given email.
-
-    The length is 30 so that it fits into Django's ``User.username`` field.
+    
+    Base64 encoded to 24 characters to fit into the username field
 
     """
-    return hashlib.md5(email).hexdigest()[0:30]
+    return base64.b64encode(hashlib.md5(self.email).digest())
 
 
 def generate_username(email):
     """
     Generates a unique username for the given email.
 
-    The username will be an md5 hash of the given email. If the username exists
-    we just append `a` to the email until we get a unique md5 hash.
+    The username will be an md5 hash of the given email.
 
     """
     try:
@@ -39,18 +38,8 @@ def generate_username(email):
         raise Exception('Cannot generate new username. A user with this email'
             'already exists.')
     except User.DoesNotExist:
-        pass
-
-    username = get_md5_hexdigest(email)
-    found_unique_username = False
-    while not found_unique_username:
-        try:
-            User.objects.get(username=username)
-            email = '{0}a'.format(email.lower())
-            username = get_md5_hexdigest(email)
-        except User.DoesNotExist:
-            found_unique_username = True
-            return username
+        username = get_md5_hexdigest(email)
+        return username
 
 
 class EmailAuthenticationForm(AuthenticationForm):
