@@ -3,7 +3,7 @@ from django.conf import settings
 from django.conf.urls import include, url, patterns
 from django.views.generic import TemplateView
 
-from registration.views import ActivationView
+from registration.backends.default.views import ActivationView
 from registration_email.forms import EmailRegistrationForm
 from registration_email.backends.default.views import EmailRegistrationView
 
@@ -17,11 +17,6 @@ urlpatterns = patterns('',
     ),
     url(r'^activate/(?P<activation_key>\w+)/$',
         ActivationView.as_view(),
-        {'backend': 'registration.backends.default.DefaultBackend',
-         'template_name': 'registration/activate.html',
-         'success_url': getattr(
-             settings, 'REGISTRATION_EMAIL_ACTIVATE_SUCCESS_URL', None),
-        },
         name='registration_activate',
     ),
     url(r'^register/$',
