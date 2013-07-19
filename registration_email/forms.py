@@ -38,8 +38,7 @@ def generate_username(email):
         raise Exception('Cannot generate new username. A user with this email'
             'already exists.')
     except User.DoesNotExist:
-        username = get_md5_hexdigest(email)
-        return username
+        return get_md5_hexdigest(email)
 
 
 class EmailAuthenticationForm(AuthenticationForm):
